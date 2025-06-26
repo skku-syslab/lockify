@@ -21,7 +21,6 @@ Lockify is implemented as a modification to the DLM module in **Linux kernel 6.6
 
 ```bash
 git clone https://github.com/skku-syslab/lockify.git
-cd lockify
 ```
 
 ### 2. Integrate with Linux Kernel
