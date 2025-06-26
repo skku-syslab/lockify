@@ -103,9 +103,9 @@ To enable access from other nodes, we use **NVMe over TCP**.
 
 > **Note**: This must be repeated after **each reboot**.
 
-### Step 3: Create and Mount File System
+#### Step 3: Create and Mount File System
 
-#### On `eternity6`, create the file system:
+##### On `eternity6`, create the file system:
 
 For **GFS2**:
 
@@ -119,7 +119,7 @@ For **OCFS2**:
 ~/eternity6/mkfs.ocfs2.sh
 ```
 
-#### On other nodes, mount the file system:
+##### On other nodes, mount the file system:
 
 For **GFS2**:
 
@@ -135,17 +135,17 @@ For **OCFS2**:
 
 ---
 
-### NFS Setup
+#### NFS Setup
 
 No NVMe setup is needed for NFS.
 
-#### On `eternity6`, start the NFS server:
+##### On `eternity6`, start the NFS server:
 
 ```
 ~/eternity6/nfs_storage.sh
 ```
 
-#### Then, on the other nodes, mount the shared directory:
+##### Then, on the other nodes, mount the shared directory:
 
 ```
 ~/eternity[n]/nfs.sh
@@ -153,7 +153,7 @@ No NVMe setup is needed for NFS.
 
 ---
 
-### Verifying File System
+#### Verifying File System
 
 To verify that the file system is correctly shared:
 
