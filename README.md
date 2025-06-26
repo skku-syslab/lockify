@@ -41,11 +41,15 @@ This repository includes only the modified components. To use Lockify, copy the 
 
 ### 1. Clone the Repository
 
+Clone the Lockify repository into the current directory:
+
 ```bash
 git clone https://github.com/skku-syslab/lockify.git
 ```
 
 ### 2. Download and Prepare the Kernel
+
+Download and extract the Linux 6.6.23 source:
 
 ```bash
 wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.23.tar.xz
@@ -53,11 +57,11 @@ tar -xf linux-6.6.23.tar.xz
 cd linux-6.6.23
 ```
 
-Copy Lockify source files into the kernel tree:
+Copy the Lockify source files into the kernel source tree (assuming `lockify/` is in the same parent directory):
 
 ```bash
-cp -r /path/to/lockify/fs ./fs
-cp -r /path/to/lockify/include/* ./include
+cp -r ../lockify/fs ./fs
+cp -r ../lockify/include/* ./include
 ```
 
 Ensure the following kernel config options are enabled:
@@ -161,6 +165,30 @@ Install the following benchmarking tools:
 Follow the installation instructions in each repository.  
 Run benchmarks while varying the number of client nodes that mount the shared file system.
 
+### Toy example: Running mdtest
+
+Here is a sample script we used to run mdtest on a mounted file system:
+
+```bash
+#!/bin/bash
+
+TEST_DIR="/path/to/mdtest_dir"            # Directory where MDTest will perform operations
+FILE_COUNT_PER_PROCESS=5000               # Number of files per process
+TREE_DEPTH=2                              # Depth of directory tree
+BRANCH_FACTOR=2                           # Number of directories per level
+NPROCS=1                                  # Number of processes
+ITERATIONS=1                              # Number of iterations
+
+# Clear page cache
+sudo bash -c "echo 3 > /proc/sys/vm/drop_caches"
+
+mkdir -p $TEST_DIR
+
+# Run mdtest (assumes mdtest binary is in ./src/)
+mpirun -np $NPROCS ./src/mdtest -i $ITERATIONS -I=$FILE_COUNT_PER_PROCESS -z $TREE_DEPTH -b $BRANCH_FACTOR -d $TEST_DIR -C
+```
+
+> 📌 Make sure to modify paths (`/path/to/mdtest_dir`, `./src/mdtest`) according to your environment.
 ---
 
 ## Authors
@@ -175,4 +203,6 @@ Run benchmarks while varying the number of client nodes that mount the shared fi
 
 ## GitHub Repository
 
-For more information and updates, please visit the official repository: https://github.com/skku-syslab/lockify
+For more information and updates, please visit the official repository:
+
+🔗 https://github.com/skku-syslab/lockify
