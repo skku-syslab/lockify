@@ -18,6 +18,7 @@ This repository includes only the modified components of the Linux kernel:
 - `include/`: Contains small changes to header files
 - `fast26ae/`: Includes the README and scripts used for artifact evaluation (see `fast26ae/README.md`)
 
+> **Note**: If you are reviewing the artifact for AE, all setup steps are already scripted — you can go directly to `fast26ae/README.md`.
 ---
 
 ## Getting Started Guide
@@ -83,7 +84,7 @@ make INSTALL_MOD_STRIP=1 modules_install
 make install
 ```
 
-Update GRUB (if needed):
+Update GRUB :
 
 ```bash
 sudo vi /etc/default/grub      # Make sure the new kernel is set as default
@@ -105,8 +106,8 @@ To evaluate Lockify, configure a shared-disk setup across nodes.
   - Edit `/etc/ocfs2/cluster.conf`  
   - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
 
-- **For NFS** (optional):  
-  - Configure `/etc/exports` on the server
+- **For NFS** :  
+  - Configure `/etc/exports` on the nfs-server
 
 ### Configure NVMe-over-TCP
 
