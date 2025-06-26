@@ -70,7 +70,7 @@ This script will:
 > **Important**:  
 > By default, the **lockify** module is already compiled and applied on the initial boot.
 
-## Filesystem Setup
+## Shared Storage and Filesystem Setup
 
 We evaluate the following file systems:
 
@@ -102,8 +102,6 @@ To enable access from other nodes, we use **NVMe over TCP**.
 ```
 
 > **Note**: This must be repeated after **each reboot**.
-
----
 
 ### Step 3: Create and Mount File System
 
