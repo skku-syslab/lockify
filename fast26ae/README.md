@@ -12,6 +12,8 @@ Thank you for taking the time to review our artifact. This document provides ste
 >
 > These credentials are intentionally excluded from this document for security reasons.
 
+We provide access to the same servers used in the experiments (named `eternity`) so that you can reproduce the results in an identical environment.
+
 ## SSH Access Instructions
 
 All *eternity* nodes share the same home directory via NFS.  
@@ -288,3 +290,7 @@ Benchmark scripts are located in the following directories:
 > For more consistent measurements, it is recommended to:
 > - Reboot the system before execution
 > - Run multiple trials and average results
+
+## Contact
+
+If you encounter any issues, please contact: **pty3595@g.skku.edu**
