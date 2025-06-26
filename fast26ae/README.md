@@ -14,7 +14,23 @@ Thank you for taking the time to review our artifact. This document provides ste
 
 We provide access to the same servers used in the experiments (named `eternity`) so that you can reproduce the results in an identical environment.
 
-## SSH Access Instructions
+## Testbed Configuration
+
+All scripts have been fully prepared in this directory.  
+**You do not need to refer to the `readme.md` file in the parent directory.**
+
+The setup consists of **five client nodes** connected via a **56 Gbps switch**.  
+A **single storage server** hosts a **250 GB Samsung 970 EVO Plus NVMe SSD**, which is shared over **NVMe-over-TCP**.
+
+Each client node is equipped with:
+
+- Dual Intel Xeon Gold 5115 CPUs @ 2.40GHz (20 cores per socket, Hyper-Threading enabled)
+- 64 GB RAM
+- Ubuntu 18.04 with Linux kernel 6.6.23
+
+Unless noted otherwise, all nodes use default system settings.
+
+---
 
 All *eternity* nodes share the same home directory via NFS.  
 To separate environments, individual directories are created for each node under the home directory:
@@ -196,6 +212,9 @@ Benchmark scripts are located in the following directories:
 ### Breakdown by Figure (from the paper)
 
 ---
+
+> **Note**: To minimize kernel module patching overhead, it is recommended to avoid running experiments figure-by-figure.  
+> Instead, group experiments by currently loaded kernel module and organize results incrementally in an Excel sheet during evaluation.
 
 #### **Fig. 2**
 
