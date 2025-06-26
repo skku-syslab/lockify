@@ -10,12 +10,34 @@ Implemented as a patch to the Linux kernel and evaluated on **GFS2** and **OCFS2
 
 ---
 
-## Installation and Benchmark Setup
+## Repository Overview
 
-Lockify is implemented as a modification to the DLM module in **Linux kernel 6.6.23**.
+This repository includes only the modified components of the Linux kernel:
 
-> ⚠️ This repository provides **only the modified DLM-related source files**, not the entire kernel tree.  
-> Please copy the contents of this repository into a clean Linux 6.6.23 kernel source before building.
+- `fs/`: Contains Lockify implementation (`dlm/`) and small modifications to `gfs2/`, `ocfs2/` to support Lockify
+- `include/`: Contains small changes to header files
+- `fast26ae/`: Includes the README and scripts used for artifact evaluation (see `fast26ae/README.md`)
+
+---
+
+## Getting Started Guide
+
+This guide consists of three parts:
+
+1. **Build the Lockify Kernel**  
+   Compile the Linux kernel with Lockify modifications
+
+2. **Set Up Remote Storage and File Systems**  
+   Configure shared storage via NVMe-over-TCP and prepare GFS2/OCFS2
+
+3. **Run Benchmarks**  
+   Install benchmarking tools and run experiments across multiple nodes
+
+---
+
+## Build Lockify Kernel
+
+This repository includes only the modified components. To use Lockify, copy the provided source files into a clean **Linux 6.6.23** kernel tree.
 
 ### 1. Clone the Repository
 
@@ -23,32 +45,107 @@ Lockify is implemented as a modification to the DLM module in **Linux kernel 6.6
 git clone https://github.com/skku-syslab/lockify.git
 ```
 
-### 2. Integrate with Linux Kernel
-
-- Download a clean Linux 6.6.23 kernel source.
-- Copy the Lockify files (e.g., `dlm/`, relevant headers) into the kernel tree, overwriting existing files.
-- Ensure the following kernel config options are enabled:
-  - `CONFIG_NVME_TARGET_TCP`
-  - `CONFIG_NVME_TCP`
-
-### 3. Build and Install the Kernel
+### 2. Download and Prepare the Kernel
 
 ```bash
-make menuconfig     # or reuse an existing .config
-make -j$(nproc)
-sudo make modules_install
-sudo make install
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.6.23.tar.xz
+tar -xf linux-6.6.23.tar.xz
+cd linux-6.6.23
+```
+
+Copy Lockify source files into the kernel tree:
+
+```bash
+cp -r /path/to/lockify/fs ./fs
+cp -r /path/to/lockify/include/* ./include
+```
+
+Ensure the following kernel config options are enabled:
+
+```bash
+make olddefconfig
+make menuconfig
+```
+
+- `CONFIG_NVME_TARGET_TCP`
+- `CONFIG_NVME_TCP`
+
+Build and install:
+
+```bash
+make -j`nproc` bzImage
+make -j`nproc` modules
+make INSTALL_MOD_STRIP=1 modules_install
+make install
+```
+
+Update GRUB (if needed):
+
+```bash
+sudo vi /etc/default/grub      # Make sure the new kernel is set as default
+sudo update-grub
 reboot
 ```
 
-### 4. Set Up the Evaluation Cluster
+---
 
-- Configure a shared-disk cluster using **GFS2** or **OCFS2**.
-- Set up **NVMe-over-TCP** between the nodes.
+## Setup Remote Storage Devices and File System
 
-### 5. Benchmarking Tools
+To evaluate Lockify, configure a shared-disk setup across nodes.
 
-Install the following tools to run evaluations:
+- **For GFS2**:  
+  - Edit `/etc/corosync/corosync.conf` consistently across nodes  
+  - When formatting: `mkfs.gfs2 -p lock_dlm -t <clustername>:<fsname> ...`
+
+- **For OCFS2**:  
+  - Edit `/etc/ocfs2/cluster.conf`  
+  - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
+
+- **For NFS** (optional):  
+  - Configure `/etc/exports` on the server
+
+### Configure NVMe-over-TCP
+
+#### On the storage target node
+
+> Replace values like `pty`, `/dev/nvme0n1`, and `10.0.0.6` with your actual device and IP.
+
+```bash
+cd /sys/kernel/config/nvmet/subsystems/
+mkdir pty
+cd pty
+echo 1 > attr_allow_any_host
+mkdir namespaces/1
+cd namespaces/1
+echo -n /dev/nvme0n1 > device_path
+echo 1 > enable
+
+cd /sys/kernel/config/nvmet/ports/
+mkdir 50000
+cd 50000
+echo 10.0.0.6 > addr_traddr
+echo tcp > addr_trtype
+echo 4420 > addr_trsvcid
+echo ipv4 > addr_adrfam
+ln -s /sys/kernel/config/nvmet/subsystems/pty /sys/kernel/config/nvmet/ports/50000/subsystems/pty
+```
+
+#### On each client node
+
+Install `nvme-cli`:  
+https://github.com/linux-nvme/nvme-cli
+
+Then connect:
+
+```bash
+nvme connect -a 10.0.0.6 -t tcp -s 4420 -n pty
+```
+
+---
+
+## Run Benchmarks
+
+Install the following benchmarking tools:
 
 - **mdtest (via IOR)**  
   https://github.com/hpc/ior
@@ -60,6 +157,9 @@ Install the following tools to run evaluations:
 
 - **Filebench**  
   https://github.com/filebench/filebench
+
+Follow the installation instructions in each repository.  
+Run benchmarks while varying the number of client nodes that mount the shared file system.
 
 ---
 
@@ -75,6 +175,4 @@ Install the following tools to run evaluations:
 
 ## GitHub Repository
 
-For more information and updates, please visit the official repository:
-
-🔗 https://github.com/skku-syslab/lockify
+For more information and updates, please visit the official repository: https://github.com/skku-syslab/lockify
