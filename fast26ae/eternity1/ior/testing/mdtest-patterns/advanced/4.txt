@@ -1,0 +1,49 @@
+V-3: Rank   0  main (before display_freespace): o.testdirpath is '/dev/shm/mdest'
+V-3: Rank   0  main (after display_freespace): o.testdirpath is '/dev/shm/mdest'
+V-3: Rank   0  V-3: main: Using unique_mk_dir, 'mdtest_tree.0'
+V-3: Rank   0  V-3: main: Copied unique_mk_dir, 'mdtest_tree.0', to topdir
+V-3: Rank   0  stat path is '/dev/shm/mdest/test-dir.0-0/mdtest_tree.0'
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.0
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.1
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.2
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.3
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.4
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.5
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.6
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.7
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.8
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.9
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.10
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.11
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.12
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.13
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.14
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.15
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.16
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.17
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.18
+V-3: Rank   0  mdtest_stat  dir: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/dir.mdtest.0.19
+V-3: Rank   0  will file_test on mdtest_tree.0
+V-3: Rank   0  Entering file_test on mdtest_tree.0
+V-3: Rank   0  file_test: stat path is '/dev/shm/mdest/test-dir.0-0/mdtest_tree.0'
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.0
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.1
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.2
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.3
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.4
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.5
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.6
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.7
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.8
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.9
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.10
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.11
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.12
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.13
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.14
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.15
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.16
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.17
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.18
+V-3: Rank   0  mdtest_stat file: /dev/shm/mdest/test-dir.0-0/mdtest_tree.0/file.mdtest.0.19
+V-3: Rank   0  main: Using o.testdir, '/dev/shm/mdest/test-dir.0-0'
