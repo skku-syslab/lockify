@@ -1,3 +1,17 @@
+# Artifact Evaluation Instructions
+
+Hello!
+
+Thank you for taking the time to review our artifact. This document provides step-by-step instructions to access the servers used during our experiments, ensuring full reproducibility in the same environment used for the paper.
+
+> ⚠️ **Access Information**  
+> To access the servers, please refer to the **separately submitted information** for:
+> - VPN configuration  
+> - Server SSH path  
+> - User ID and password  
+>
+> These credentials are intentionally excluded from this document for security reasons.
+
 ## SSH Access Instructions
 
 All *eternity* nodes share the same home directory via NFS.  
