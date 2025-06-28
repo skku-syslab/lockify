@@ -4,7 +4,7 @@ Hello!
 
 Thank you for taking the time to review our artifact. This document provides step-by-step instructions to access the servers used during our experiments, ensuring full reproducibility in the same environment used for the paper.
 
-> ⚠️ **Access Information**  
+> **Access Information**  
 > To access the servers, please refer to the **separately submitted information** for:
 > - VPN configuration  
 > - Server SSH path  
@@ -48,7 +48,7 @@ From this point onward, please execute all node-specific scripts from their corr
 ...
 ```
 
-> **Note**:  
+> ⚠️ **Note**:  
 > Since `sudo` privileges have been granted, perform all operations in a root shell using `sudo -s`,  
 > **except** when running `mdtest` (IOR).
 
@@ -82,7 +82,8 @@ This script will:
 
 > After reboot, the module will be automatically loaded.
 
-> **Important**:  
+> ⚠️ **Note**:  
+> This process may take 10 minutes or more depending on system load and build state.
 > By default, the **lockify** module is already compiled and applied on the initial boot.
 
 ## Shared Storage and Filesystem Setup
@@ -116,7 +117,7 @@ eternity6/nvmeof_storage.sh
 eternity[n]/nvmeof.sh
 ```
 
-> **Note**: This must be repeated after **each reboot**.
+> ⚠️ **Note**: This must be repeated after **each reboot**.
 
 #### Step 3: Create and Mount File System
 
@@ -127,6 +128,10 @@ For **GFS2**:
 ```
 eternity6/gfs2/mkfs_gfs2.sh
 ```
+
+> ⚠️ **Note**:  
+> The `mkfs` process may ask for confirmation
+> In such cases, please type `y` and press Enter.
 
 ##### On all nodes, mount the file system:
 
@@ -184,7 +189,7 @@ To verify that the file system is correctly shared:
 
 If the file is visible, the setup is successful.
 
-> **Note**:  
+> ⚠️ **Note**:  
 > Before switching file systems (e.g., from GFS2 to OCFS2), make sure to unmount `/mnt/fast26ae` on all nodes:
 
 ```
@@ -194,7 +199,9 @@ eternity[n]/[fs]/umount.sh
 ## Experiment Execution
 
 All experiments are configured to be executed from **eternity1**.  
-(For single-client benchmarks, ensure that **only eternity1** mounts the target file system during execution.)
+Number of clients refers to the number of nodes that currently have the file system mounted.
+For single-client benchmarks, ensure that **only eternity1** mounts the target file system (except for NFS, where eternity6 (the server) must also mount the directory for proper operation.)
+If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
 
 Benchmark scripts are located in the following directories:
 
@@ -204,14 +211,21 @@ eternity1/postmark/
 eternity1/filebench/scripts/
 ```
 
+Check the benchmark results using the following metrics:
+
+- IOR: Bandwidth in the Results section  
+- mdtest: Directory/File creation in the SUMMARY rate section  
+- Postmark: Transactions per second in the Time section  
+- Filebench: ops/s in the IO Summary section
+
 ---
 
 ### Breakdown by Figure (from the paper)
 
 ---
 
-> **Note**: To minimize kernel module patching overhead, it is recommended to avoid running experiments figure-by-figure.  
-> Instead, group experiments by currently loaded kernel module and organize results incrementally in an Excel sheet during evaluation.
+> ⚠️ **Note**: To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.  
+> Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
 
 #### **Fig. 2**
 
