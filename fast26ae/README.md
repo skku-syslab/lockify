@@ -117,7 +117,8 @@ eternity6/nvmeof_storage.sh
 eternity[n]/nvmeof.sh
 ```
 
-> ⚠️ **Note**: This must be repeated after **each reboot**.
+> ⚠️ **Note**:
+> This must be repeated after **each reboot**.
 
 #### Step 3: Create and Mount File System
 
