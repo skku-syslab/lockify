@@ -7,12 +7,12 @@ BRANCH_FACTOR=2                         # Number of directories per level
 NPROCS=1                                # Number of processes
 ITERATIONS=1                            # Number of iterations
 
+sudo mkdir -p $TEST_DIR
 sudo chown -R fast26ae:fast26ae /mnt/fast26ae
-mkdir -p $TEST_DIR
 
-sudo bash -c "echo > /sys/kernel/debug/tracing/trace"
-sudo bash -c "echo 1 > /sys/kernel/debug/tracing/events/gfs2/gfs2_glock_lock_time/enable"
 sudo bash -c "echo 3 > /proc/sys/vm/drop_caches"
+sudo bash -c "echo 1 > /sys/kernel/debug/tracing/events/gfs2/gfs2_glock_lock_time/enable"
+sudo bash -c "echo > /sys/kernel/debug/tracing/trace"
 
 START_TIME=$(date +%s%N)
 mpirun -np $NPROCS ../src/mdtest -i $ITERATIONS -I=$FILE_COUNT_PER_PROCESS -z $TREE_DEPTH -b $BRANCH_FACTOR -d $TEST_DIR -C

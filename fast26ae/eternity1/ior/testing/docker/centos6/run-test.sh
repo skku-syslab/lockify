@@ -1,1 +1,0 @@
-../centos7/run-test.sh

@@ -18,15 +18,15 @@ def process_log_file(file_path, total_time):
             lock_sum = sum(lock_time_values)
             lock_avg = lock_sum / len(lock_time_values)
             lock_ratio = (lock_sum / 1000) / (total_time / 1000) * 100
-
-            print(f"Total execution time: {total_time / 1000:.2f}us")
-            print(f"lock_time_sum: {lock_sum / 1000:.2f}us")
-            print(f"lock_time_ratio: {lock_ratio:.2f}%")
+            fs_ratio = 100.0 - lock_ratio
+            
+            print(f"DLM-side latency ratio: {lock_ratio:.2f}%")
+            print(f"FS-side latency ratio: {fs_ratio:.2f}%")
             
             lock_time_values_us = np.array([value / 1000 for value in lock_time_values])
             
             bin_width = 20
-            max_range = 500
+            max_range = 200
             bins = [(i, i+bin_width) for i in range(0, max_range, bin_width)]
             histogram = {i: 0 for i in range(0, max_range, bin_width)}
             
