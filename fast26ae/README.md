@@ -85,6 +85,7 @@ After reboot, the module will be automatically loaded.
 > ⚠️ **Note**:  
 > This process may take 10 minutes or more depending on system load and build state.
 > By default, the **lockify** module is already compiled and applied on the initial boot.
+> This process must be performed on each node individually.
 
 ## Shared Storage and Filesystem Setup
 
