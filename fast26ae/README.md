@@ -80,7 +80,7 @@ This script will:
 2. Install it  
 3. Reboot the node
 
-> After reboot, the module will be automatically loaded.
+After reboot, the module will be automatically loaded.
 
 > ⚠️ **Note**:  
 > This process may take 10 minutes or more depending on system load and build state.
@@ -224,7 +224,8 @@ Check the benchmark results using the following metrics:
 
 ---
 
-> ⚠️ **Note**: To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.  
+> ⚠️ **Note**:
+> To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.  
 > Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
 
 #### **Fig. 2**
@@ -313,7 +314,7 @@ Check the benchmark results using the following metrics:
 
 ---
 
-> **Note**:  
+> ⚠️ **Note**:  
 > Benchmark results can vary, especially with **Filebench**.  
 > For more consistent measurements, it is recommended to:
 > - Reboot the system before execution
