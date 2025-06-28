@@ -64,15 +64,14 @@ We have prepared three kernel modules for evaluation:
 
 Each module directory includes its own compilation script:
 
-- `dlm_compile.sh`
-- `lockify_compile.sh`
-- `o2cb_compile.sh`
+- `module/dlm_compile.sh`
+- `module/lockify_compile.sh`
+- `module/o2cb_compile.sh`
 
 To compile and apply a kernel module, run the corresponding script **as root**:
 
 ```
-sudo -s
-./lockify_compile.sh
+module/lockify_compile.sh
 ```
 
 This script will:
@@ -108,63 +107,61 @@ To enable access from other nodes, we use **NVMe over TCP**.
 #### Step 1: Export NVMe from eternity6
 
 ```
-~/eternity6/nvmeof_storage.sh
+eternity6/nvmeof_storage.sh
 ```
 
 #### Step 2: Connect from other nodes (eternity1, eternity2, eternity5, eternity11)
 
 ```
-~/eternity[n]/nvmeof.sh
+eternity[n]/nvmeof.sh
 ```
 
 > **Note**: This must be repeated after **each reboot**.
 
 #### Step 3: Create and Mount File System
 
+For **GFS2**:
+
 ##### On `eternity6`, create the file system:
 
-For **GFS2**:
-
 ```
-~/eternity6/mkfs_gfs2.sh
+eternity6/gfs2/mkfs_gfs2.sh
 ```
 
-For **OCFS2**:
+##### On all nodes, mount the file system:
 
 ```
-~/eternity6/mkfs.ocfs2.sh
-```
-
-##### On other nodes, mount the file system:
-
-For **GFS2**:
-
-```
-~/eternity[n]/mount_gfs2.sh
+eternity[n]/gfs2/mount_gfs2.sh
 ```
 
 For **OCFS2**:
 
+##### On `eternity6`, create the file system:
+
 ```
-~/eternity[n]/mount_ocfs2.sh
+eternity6/ocfs2/mkfs_ocfs2.sh
 ```
 
----
+##### On all nodes, mount the file system:
 
-#### NFS Setup
+```
+eternity[n]/ocfs2/mount_ocfs2.sh
+```
+
+For **NFS**:
 
 No NVMe setup is needed for NFS.
 
 ##### On `eternity6`, start the NFS server:
 
 ```
-~/eternity6/nfs_storage.sh
+eternity6/nfs/nfs_storage.sh
 ```
 
 ##### Then, on the other nodes, mount the shared directory:
 
 ```
-~/eternity[n]/nfs.sh
+eternity[n]/nfs/nfs.sh
 ```
 
 ---
@@ -191,7 +188,7 @@ If the file is visible, the setup is successful.
 > Before switching file systems (e.g., from GFS2 to OCFS2), make sure to unmount `/mnt/fast26ae` on all nodes:
 
 ```
-sudo umount /mnt/fast26ae
+eternity[n]/[fs]/umount.sh
 ```
 
 ## Experiment Execution
@@ -202,9 +199,9 @@ All experiments are configured to be executed from **eternity1**.
 Benchmark scripts are located in the following directories:
 
 ```
-~/eternity1/ior/scripts/
-~/eternity1/postmark/
-~/eternity1/filebench/scripts/
+eternity1/ior/scripts/
+eternity1/postmark/
+eternity1/filebench/scripts/
 ```
 
 ---
@@ -219,7 +216,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 2**
 
 - **Scripts**: `ior.sh` (a), `mdtest_create.sh` (b)  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File system**: GFS2  
 - **Kernel module**: dlm  
 - **Method**: Vary the number of client nodes that mount the GFS2 file system  
@@ -233,7 +230,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 4**
 
 - **Script**: `mdtest_distribution.sh`  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File system**: GFS2  
 - **Kernel module**: dlm  
 - **Method**: Mount GFS2 on varying numbers of client nodes, then execute the script.
@@ -243,7 +240,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 5**
 
 - **Script**: `mdtest_create.sh`  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File system**: OCFS2  
 - **Kernel modules**: `o2cb`, `dlm`  
 - **Method**:  
@@ -254,7 +251,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 7**
 
 - **Script**: `mdtest_create.sh`  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File systems**: NFS, GFS2, OCFS2  
 - **Kernel modules**: `dlm`, `lockify`  
 - **Method**:  
@@ -267,7 +264,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 8**
 
 - **Script**: `mdtest_multi.sh`  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File systems**: NFS, GFS2, OCFS2  
 - **Kernel modules**: `dlm`, `lockify`  
 - **Method**: Same as Fig. 7
@@ -277,7 +274,7 @@ Benchmark scripts are located in the following directories:
 #### **Fig. 9**
 
 - **Script**: `mdtest_distribution.sh`  
-- **Location**: `~/eternity1/ior/scripts/`  
+- **Location**: `eternity1/ior/scripts/`  
 - **File system**: GFS2  
 - **Kernel modules**: `dlm`, `lockify`  
 - **Method**: Mount GFS2 on varying numbers of client nodes and execute the script.
@@ -288,7 +285,7 @@ Benchmark scripts are located in the following directories:
 
 - **(a)**
   - **Script**: `postmark.sh`  
-  - **Location**: `~/eternity1/postmark/`  
+  - **Location**: `eternity1/postmark/`  
   - **File systems**: NFS, GFS2, OCFS2  
   - **Kernel modules**: `dlm`, `lockify`  
 
@@ -296,7 +293,7 @@ Benchmark scripts are located in the following directories:
   - **Scripts**:  
     - `fileserver.sh` (b)  
     - `webproxy.sh` (c)  
-  - **Location**: `~/eternity1/filebench/scripts/`  
+  - **Location**: `eternity1/filebench/scripts/`  
   - **File systems**: NFS, GFS2, OCFS2  
   - **Kernel modules**: `dlm`, `lockify`  
 
