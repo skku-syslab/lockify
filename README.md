@@ -164,14 +164,14 @@ nvme connect -a 10.0.0.6 -t tcp -s 4420 -n pty
 > Replace values like `/dev/nvme0n1`, and `/mnt/` with your actual device and mount point.
 
 - **For GFS2**:  
-  - Install package: `apt-get install corosync dlm-controld gfs2-utils`   
+  - Install package: `sudo apt install corosync dlm-controld gfs2-utils`   
   - Edit `/etc/corosync/corosync.conf` consistently across client nodes  
   - When formatting: `mkfs.gfs2 -p lock_dlm -t <cluster_name>:<fsname> ...`  
   - Mount: `mount -t gfs2 /dev/nvme0n1 /mnt/`  
   - Unmount: `umount /mnt/`  
 
 - **For OCFS2**:  
-  - Install package: `apt-get install ocfs2-tools ocfs2-tools-dev`  
+  - Install package: `sudo apt install ocfs2-tools ocfs2-tools-dev`  
   - Edit `/etc/ocfs2/cluster.conf`  
   - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
   - Mount: `mount -t ocfs2 /dev/nvme0n1 /mnt/`
