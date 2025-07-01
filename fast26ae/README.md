@@ -128,27 +128,27 @@ cd ~/eternity[n]/
 
 We evaluate three file systems: **GFS2**, **OCFS2**, and **NFS**. The shared storage on `eternity6` is first formatted with the target file system and then mounted on all client nodes.
 
-On `eternity6`:
+On `eternity6`, create the target file system (format):
 
 ```
 sudo -s
 cd ~/eternity6/
 ```
 
-- **GFS2**: `./gfs2/mkfs_gfs2.sh`, `./gfs2/mount_gfs2.sh`
-- **OCFS2**: `./ocfs2/mkfs_ocfs2.sh`, `./ocfs2/mount_ocfs2.sh`
-- **NFS**: `./nfs/nfs_storage.sh`
+- For **GFS2**: run `./gfs2/mkfs_gfs2.sh`
+- For **OCFS2**: run `./ocfs2/mkfs_ocfs2.sh`
+- For **NFS**: run `./nfs/nfs_storage.sh`
 
-On the other client nodes:
+On all client nodes, mount the target file system:
 
 ```
 sudo -s
 cd ~/eternity[n]/
 ```
 
-- **GFS2**: `./gfs2/mount_gfs2.sh`
-- **OCFS2**: `./ocfs2/mount_ocfs2.sh`
-- **NFS**: `./nfs/nfs.sh`
+- For **GFS2**: run `./gfs2/mount_gfs2.sh`
+- For **OCFS2**: run `./ocfs2/mount_ocfs2.sh`
+- For **NFS**: run `./nfs/nfs.sh`
 
 ### (Optional) 4. Verifying the file system
 
@@ -169,18 +169,16 @@ To verify that the file system is correctly shared:
 If the file is visible, the shared file system setup is successful.
 
 > ⚠️ **Note**:  
-> Before switching file systems (e.g., from GFS2 to OCFS2), make sure to unmount `/mnt/fast26ae` on all client nodes:
+> Before switching to a different file system (e.g., from GFS2 to OCFS2), make sure that unmount `/mnt/fast26ae` is unmounted on all client nodes:
 
 ```
 sudo -s
 cd ~/eternity[n]/
 ```
 
-- **GFS2**: `./gfs2/umount.sh`
-- **OCFS2**: `./ocfs2/umount.sh`
-- **NFS**: `./nfs/umount.sh`
-
-
+- For **GFS2**: run `./gfs2/umount.sh`
+- For **OCFS2**: run `./ocfs2/umount.sh`
+- For **NFS**: run `./nfs/umount.sh`
 
 <!--
 We evaluate the following file systems:
@@ -294,6 +292,32 @@ eternity[n]/[fs]/umount.sh
 
 ## Lockify Evaluation
 
+#### How to run evaluation scripts?
+
+All evaluation scripts are assumed to run on **eternity1** and located in the following directories:
+
+- IOR/mdtest: `~/eternity1/ior/scripts/`
+- Postmark: `eternity1/postmark/`
+- Filebench: `eternity1/filebench/scripts/`
+
+#### How to read the results?
+
+Check the benchmark results using the following metrics:
+
+- IOR: **Bandwidth** reported in the Results section  
+- mdtest: **Directory/File creation** shown in the SUMMARY rate section  
+- Postmark: **Transactions per second** shown in the Time section  
+- Filebench: **ops/s** shown in the IO Summary section
+
+#### How to vary the number of clients?
+
+The number of clients indicates the number of nodes that currently have the target file system mounted.
+
+- For 1-client case: ensure that **only `eternity1`** mounts the target file system (except for NFS, where `eternity6` (the server) must also mount the directory for proper operation.)
+- For n-client case: mounts the target file system on _n_ client nodes, including `eternity1`.
+
+
+<!--
 All experiments are configured to be executed from **eternity1**.  
 Number of clients refers to the number of nodes that currently have the file system mounted.
 For single-client benchmarks, ensure that **only eternity1** mounts the target file system (except for NFS, where eternity6 (the server) must also mount the directory for proper operation.)
@@ -313,6 +337,7 @@ Check the benchmark results using the following metrics:
 - mdtest: Directory/File creation in the SUMMARY rate section  
 - Postmark: Transactions per second in the Time section  
 - Filebench: ops/s in the IO Summary section
+-->
 
 ---
 
