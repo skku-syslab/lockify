@@ -37,7 +37,7 @@ This guide consists of three parts:
 
 ## Build Lockify Kernel
 
-This repository includes only the modified components. To use Lockify, copy the provided source files into a clean **Linux 6.6.23** kernel tree.
+This repository includes only the modified components. To use Lockify, copy the provided source files into a clean **Linux 6.6.23** kernel tree. Lockify has been successfully tested on Ubuntu 18.04 with kernel 6.6.23.
 
 ### 1. Clone the Repository
 
