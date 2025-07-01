@@ -1,12 +1,9 @@
-# Lockify  
-[USENIX FAST 2026] **Lockify: Understanding Linux Distributed Lock Management Overheads in Shared Storage**
+# Lockify: Understanding Linux Distributed Lock Management Overheads in Shared Storage  
 
----
+**Lockify** is a novel distributed lock manager (DLM) for shared-disk file systems. Lock acquisition overhead in the Linux kernel DLM increases with
+the number of clients, even in low-contention scenarios. **Lockify**  minimizes lock acquisition latency by avoiding unnecessary communication with remote directory nodes through  **self-owner notifications** and **asynchronous ownership management**.
 
-**Lockify** is a novel distributed lock manager (DLM) for shared-disk file systems that reduces lock acquisition latency in the Linux kernel.  
-It avoids unnecessary remote communication through **self-owner notifications** and **asynchronous ownership management**.
-
-Implemented as a patch to the Linux kernel and evaluated on **GFS2** and **OCFS2**, Lockify achieves up to **6.4× higher throughput** than the default DLM, even under low-contention workloads.
+Implemented in the Linux kernel and evaluated on **GFS2** and **OCFS2**, Lockify achieves up to **6.4× higher throughput** than the kernel DLM and O2CB.
 
 ---
 
@@ -18,10 +15,12 @@ This repository includes only the modified components of the Linux kernel:
 - `include/`: Contains small changes to header files
 - `fast26ae/`: Includes the README and scripts used for artifact evaluation (see `fast26ae/README.md`)
 
-> **Note**: If you are reviewing the artifact for AE, all setup steps are already scripted — you can go directly to `fast26ae/README.md`.
+> **Note**: For FAST'26 artifact reviewers, all setup steps are fully scripted — you can proceed directly to `fast26ae/README.md`.
 ---
 
 ## Getting Started Guide
+
+We assume a cluster where multiple client nodes share the same storage node via NVMe-over-TCP. All client nodes are reuqired to (1) have our Lockify kernel installed, (2) use a shared-disk file system (GFS2 or OCFS2), and (3) be configured with the host-side NVMe-over-TCP module. The storage node only needs to be configured with the target-side NVMe-over-TCP module.
 
 This guide consists of three parts:
 
@@ -65,15 +64,23 @@ cp -r ../lockify/fs ./fs
 cp -r ../lockify/include/* ./include
 ```
 
-Ensure the following kernel config options are enabled:
+Update kernel configuration:
 
 ```bash
 make olddefconfig
-make menuconfig
 ```
 
-- `CONFIG_NVME_TARGET_TCP`
-- `CONFIG_NVME_TCP`
+Make sure NVMe-over-TCP modules are included in the kernel configuration, then press ``Save'' and ``Exit'':
+
+```bash
+make menuconfig
+
+- Device Drivers ---> NVME Support ---> <M> NVM Express over Fabrics TCP host driver
+- Device Drivers ---> NVME Support ---> <M>   NVMe over Fabrics TCP target support
+```
+
+<!-- - `CONFIG_NVME_TARGET_TCP`
+- `CONFIG_NVME_TCP` -->
 
 Build and install:
 
@@ -84,34 +91,37 @@ make INSTALL_MOD_STRIP=1 modules_install
 make install
 ```
 
-Update GRUB :
+Edit `/etc/default/grub`:
 
 ```bash
 sudo vi /etc/default/grub      # Make sure the new kernel is set as default
+```
+
+In `/etc/default/grub`, make sure the Lockify kernel is set as default. For example:
+
+```bash
+...
+#GRUB_DEFAULT=0 
+GRUB_DEFAULT="1>Ubuntu, with Linux 6.6.23"
+...
+```
+
+Update GRUB and reboot into the Lockify kernel:
+
+```bash
 sudo update-grub
 reboot
 ```
+
+Repeat the same steps for all client nodes.
 
 ---
 
 ## Setup Remote Storage Devices and File System
 
-To evaluate Lockify, configure a shared-disk setup across nodes.
+### 1. Configure NVMe-over-TCP
 
-- **For GFS2**:  
-  - Edit `/etc/corosync/corosync.conf` consistently across nodes  
-  - When formatting: `mkfs.gfs2 -p lock_dlm -t <clustername>:<fsname> ...`
-
-- **For OCFS2**:  
-  - Edit `/etc/ocfs2/cluster.conf`  
-  - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
-
-- **For NFS** :  
-  - Configure `/etc/exports` on the nfs-server
-
-### Configure NVMe-over-TCP
-
-#### On the storage target node
+#### On the storage node
 
 > Replace values like `pty`, `/dev/nvme0n1`, and `10.0.0.6` with your actual device and IP.
 
@@ -145,6 +155,27 @@ Then connect:
 ```bash
 nvme connect -a 10.0.0.6 -t tcp -s 4420 -n pty
 ```
+
+### 2. Configure shared-disk file system
+
+#### On each client node
+
+<!-- To evaluate Lockify, configure a shared-disk setup across nodes. -->
+> Replace values like `/dev/nvme0n1`, and `/mnt/` with your actual device and mount point.
+
+- **For GFS2**:  
+  - Install package: `apt-get install corosync dlm-controld gfs2-utils`   
+  - Edit `/etc/corosync/corosync.conf` consistently across client nodes  
+  - When formatting: `mkfs.gfs2 -p lock_dlm -t <cluster_name>:<fsname> ...`  
+  - Mount: `mount -t gfs2 /dev/nvme0n1 /mnt/`  
+  - Unmount: `umount /mnt/`  
+
+- **For OCFS2**:  
+  - Install package: `apt-get install ocfs2-tools ocfs2-tools-dev`  
+  - Edit `/etc/ocfs2/cluster.conf`  
+  - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
+  - Mount: `mount -t ocfs2 /dev/nvme0n1 /mnt/`
+  - Unmount: `umount /mnt/`  
 
 ---
 
