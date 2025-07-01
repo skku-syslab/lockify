@@ -467,16 +467,19 @@ On all client nodes:
 On `eternity1`:  
 **(a)**
 ```
+sudo -s
 cd ~/eternity1/postmark/
 ./postmark.sh
 ```
 **(b)**
 ```
+sudo -s
 cd ~/eternity1/filebench/scripts/
 ./fileserver.sh
 ```
 **(c)**
 ```
+sudo -s
 cd ~/eternity1/filebench/scripts/
 ./webproxy.sh
 ```
