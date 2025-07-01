@@ -348,6 +348,7 @@ Check the benchmark results using the following metrics:
 ### Running Evaluation Scripts
 
 Run the evaluation scripts for Postmark and Filebench in a root shell using `sudo -s`, **except** for the IOR and mdtest scripts.
+
 **IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
 
 #### **Fig. 2:**
@@ -358,12 +359,17 @@ On all client nodes:
 - **File system**: GFS2  
 - **Number of clients**: 1 to 5
 
-On `eternity1`:
+On `eternity1`:  
+**(a)** performs sequential write → sequential read → random write → random read
 ```
 cd ~/eternity1/ior/scripts/
+./ior.sh
 ```
-- (a) run `ior.sh` (performs sequential write → sequential read → random write → random read)
-- (b) run `mdtest_create.sh`
+**(b)**
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_create.sh
+```
 
 ---
 
@@ -452,12 +458,12 @@ cd ~/eternity1/ior/scripts/
 For NFS, no DLM module configuration is needed, vary the number of client nodes with NFS mounted, and run the script.  
 For GFS2 and OCFS2, configure the target DLM module (dlm or lockify), vary the number of client nodes with GFS2 or OCFS2 mounted, and run the script.
 
-On all client nodes:
+On all client nodes:  
 - **DLM module**: dlm, lockify
 - **File system**: NFS, GFS2, OCFS2  
 - **Number of clients**: 1 or 5
 
-On `eternity1`:
+On `eternity1`:  
 **(a)**
 ```
 cd ~/eternity1/postmark/
