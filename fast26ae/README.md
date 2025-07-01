@@ -1,6 +1,6 @@
 # FAST'26 Artifact Evaluation Instructions
 
-All artifact evaluation scripts have been fully prepared in this directory. **You do not need to refer to the `readme.md` file in the parent directory.**  
+All artifact evaluation scripts have been fully prepared in this directory. **You do not need to refer to the `README.md` file in the parent directory.**  
 
 In our evaluation, we assume the following:
 
@@ -9,7 +9,7 @@ In our evaluation, we assume the following:
 - All client nodes have the required software packages installed. ([Configure shared-disk file systems](https://github.com/skku-syslab/lockify?tab=readme-ov-file#2-configure-shared-disk-file-system))
 - The node `eternity6` hosts a shared storage device, `/dev/nvme0n1`, which is accessed by all five client nodes. Except for `eternity6` itself, the other four client nodes access this device via NVMe-over-TCP, where it appears locally as `/dev/nvme1n1`.
 
-**Please adapt this configuration to match your testbed environment.**
+<!-- **(Please adapt this configuration to match your testbed environment.)** -->
 
 ## Hardware Configurations
 
@@ -24,15 +24,17 @@ Unless noted otherwise, all nodes use default system settings.
 
 ## Preliminaries
 
-**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, please use the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
+**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, we provide the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
 
 ```
 cd ~/eternity1/
 ```
 
-We use the notation `eternity[n]`, where `n` can be 1, 2, 5, 6, and 11.
+For simplicity, we use the notation `eternity[n]`, where `n` can be 1, 2, 5, 6, and 11.
 
 **⚠️ [NOTE 2]**: Run all scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
+
+---
 
 <!--
 All *eternity* nodes share the same home directory via NFS.  
@@ -56,24 +58,24 @@ From this point onward, please execute all node-specific scripts from their corr
 > **except** when running `mdtest` (IOR).
 -->
 
-Before starting the AE scripts, **each client node** should be correctly configured with their (1) target DLM kernel module, (2) NVMe-over-TCP setup, and (3) target file system.
+Before running the AE scripts, make sure that **each client node** is correctly configured with (1) the target DLM kernel module, (2) the NVMe-over-TCP setup, and (3) the target file system.
 
 ### 1. Configure DLM kernel module
 
-We provide three DLM kernel modules: `dlm`, `o2cb`, and `lockify`. These modules are mutually exclusive in the current setup, meaning that switching between DLM configurations requires reinstalling the desired module followed by a system reboot, which takes ~10 minutes. After reboot, the selected module is automatically loaded.
+We provide three DLM kernel modules: `dlm`, `o2cb`, and `lockify`. These modules are mutually exclusive in our current setup, meaning that switching between DLM configurations requires reinstalling the desired kernel module followed by a system reboot, which takes ~10 minutes. After reboot, the target DLM module is automatically loaded.
 
-To configure the DLM module:
+Move to the module directory:
 
 ```
 sudo -s
 cd ~/eternity[n]/module/
 ```
 
-Run the corresponding script for the target DLM module:
+Then, compile and install the target DLM module:
 
-- `dlm`: `./dlm_compile.sh`
-- `o2cb`: `./o2cb_compile.sh`
-- `lockify`: `./lockify_compile.sh`
+- For `dlm`: run `./dlm_compile.sh`
+- For `o2cb`: run `./o2cb_compile.sh`
+- For `lockify`: run `./lockify_compile.sh`
 
 <!--
 Each module directory includes its own compilation script:
@@ -104,7 +106,7 @@ After reboot, the module will be automatically loaded.
 
 ### 2. Configure the shared storage (NVMe-over-TCP)
 
-After each reboot, configure the shared storage using NVMe-over-TCP. The node `eternity6`, which hosts the shared storage device, must be configured first.
+After reboot, configure the shared storage using NVMe-over-TCP. The node `eternity6`, which hosts the shared storage device, must be configured first.
 
 On `eternity6`:
 
@@ -124,7 +126,7 @@ cd ~/eternity[n]/
 
 ### 3. Configure the shared-disk file system
 
-We evaluate three file systems: **GFS2**, **OCFS2**, and **NFS**. The shared storage on `eternity6` is formatted with the target file system and mounted on all client nodes.
+We evaluate three file systems: **GFS2**, **OCFS2**, and **NFS**. The shared storage on `eternity6` is first formatted with the target file system and then mounted on all client nodes.
 
 On `eternity6`:
 
