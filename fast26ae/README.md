@@ -11,7 +11,7 @@ In our evaluation, we assume the following:
 
 **Please adapt this configuration to match your testbed environment.**
 
-## 1. Hardware Configurations
+## Hardware Configurations
 
 Each client node is equipped with:
 
@@ -22,13 +22,15 @@ Each client node is equipped with:
 All client nodes are connected via a 56 Gbps switch. A 250 GB Samsung 970 EVO Plus NVMe SSD is used for the shared storage.  
 Unless noted otherwise, all nodes use default system settings.
 
-## 2. Preliminaries
+## Preliminaries
 
-**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, please use the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use `~/eternity1/` directory:
+**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, please use the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
 
 ```
 cd ~/eternity1/
 ```
+
+We use the notation `eternity[n]`, where `n` can be 1, 2, 5, 6, and 11.
 
 **⚠️ [NOTE 2]**: Run all scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
 
@@ -54,16 +56,26 @@ From this point onward, please execute all node-specific scripts from their corr
 > **except** when running `mdtest` (IOR).
 -->
 
----
+Before starting the AE scripts, **each client node** should be correctly configured with their (1) target DLM kernel module, (2) NVMe-over-TCP setup, and (3) target file system.
 
-## Kernel Module Compilation
+### 1. Configure DLM kernel module
 
-We have prepared three kernel modules for evaluation:
+We provide three DLM kernel modules: `dlm`, `o2cb`, and `lockify`. These modules are mutually exclusive in the current setup, meaning that switching between DLM configurations requires reinstalling the desired module followed by a system reboot, which takes ~10 minutes. After reboot, the selected module is automatically loaded.
 
-- `dlm`
-- `lockify`
-- `o2cb`
+To configure the DLM module:
 
+```
+sudo -s
+cd ~/eternity[n]/module/
+```
+
+Run the corresponding script for the target DLM module:
+
+- `dlm`: `./dlm_compile.sh`
+- `o2cb`: `./o2cb_compile.sh`
+- `lockify`: `./lockify_compile.sh`
+
+<!--
 Each module directory includes its own compilation script:
 
 - `module/dlm_compile.sh`
@@ -88,9 +100,87 @@ After reboot, the module will be automatically loaded.
 > This process may take 10 minutes or more depending on system load and build state.
 > By default, the **lockify** module is already compiled and applied on the initial boot.
 > This process must be performed on each node individually.
+-->
 
-## Shared Storage and Filesystem Setup
+### 2. Configure the shared storage (NVMe-over-TCP)
 
+After each reboot, configure the shared storage using NVMe-over-TCP. The node `eternity6`, which hosts the shared storage device, must be configured first.
+
+On `eternity6`:
+
+```
+sudo -s
+cd ~/eternity6/
+./nvmeof_storage.sh
+```
+
+On the other client nodes:
+
+```
+sudo -s
+cd ~/eternity[n]/
+./nvmeof.sh
+```
+
+### 3. Configure the shared-disk file system
+
+We evaluate three file systems: **GFS2**, **OCFS2**, and **NFS**. The shared storage on `eternity6` is formatted with the target file system and mounted on all client nodes.
+
+On `eternity6`:
+
+```
+sudo -s
+cd ~/eternity6/
+```
+
+- **GFS2**: `./gfs2/mkfs_gfs2.sh`, `./gfs2/mount_gfs2.sh`
+- **OCFS2**: `./ocfs2/mkfs_ocfs2.sh`, `./ocfs2/mount_ocfs2.sh`
+- **NFS**: `./nfs/nfs_storage.sh`, `./nfs/nfs.sh`
+
+On the other client nodes:
+
+```
+sudo -s
+cd ~/eternity[n]/
+```
+
+- **GFS2**: `./gfs2/mount_gfs2.sh`
+- **OCFS2**: `./ocfs2/mount_ocfs2.sh`
+- **NFS**: `./nfs/nfs.sh`
+
+### (Optional) 4. Verifying the file system
+
+To verify that the file system is correctly shared:
+
+1. On any node, create a file in the mounted directory:
+
+    ```
+    touch /mnt/fast26ae/testfile
+    ```
+
+2. On another node, verify that the file appears:
+
+    ```
+    ls /mnt/fast26ae
+    ```
+
+If the file is visible, the shared file system setup is successful.
+
+> ⚠️ **Note**:  
+> Before switching file systems (e.g., from GFS2 to OCFS2), make sure to unmount `/mnt/fast26ae` on all client nodes:
+
+```
+sudo -s
+cd ~/eternity[n]/
+```
+
+- **GFS2**: `./gfs2/umount.sh`
+- **OCFS2**: `./ocfs2/umount.sh`
+- **NFS**: `./nfs/umount.sh`
+
+
+
+<!--
 We evaluate the following file systems:
 
 - **GFS2** and **OCFS2**: These require shared storage.
@@ -173,8 +263,6 @@ eternity6/nfs/nfs_storage.sh
 eternity[n]/nfs/nfs.sh
 ```
 
----
-
 #### Verifying File System
 
 To verify that the file system is correctly shared:
@@ -200,7 +288,9 @@ If the file is visible, the setup is successful.
 eternity[n]/[fs]/umount.sh
 ```
 
-## Experiment Execution
+-->
+
+## Lockify Evaluation
 
 All experiments are configured to be executed from **eternity1**.  
 Number of clients refers to the number of nodes that currently have the file system mounted.
