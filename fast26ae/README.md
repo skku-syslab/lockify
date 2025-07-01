@@ -1,11 +1,10 @@
 # FAST'26 Artifact Evaluation Instructions
 
-All scripts have been fully prepared in this directory.  
-**You do not need to refer to the `readme.md` file in the parent directory.**
+All artifact evaluation scripts have been fully prepared in this directory. **You do not need to refer to the `readme.md` file in the parent directory.**  
 
 In our evaluation, we assume the following:
 
-- There are **five client nodes**: eternity1, eternity2, eternity5, eternity6, and eternity11.
+- There are **five client nodes**: `eternity1`, `eternity2`, `eternity5`, `eternity6`, and `eternity11`.
 - All client nodes have the the Lockify kernel installed. ([Build Lockify Kernel](https://github.com/skku-syslab/lockify?tab=readme-ov-file#build-lockify-kernel))
 - All client nodes have the required software packages installed. ([Configure shared-disk file systems](https://github.com/skku-syslab/lockify?tab=readme-ov-file#2-configure-shared-disk-file-system))
 - All client nodes are configured to share a common storage node via NVMe-over-TCP. ([Configure NVMe-over-TCP](https://github.com/skku-syslab/lockify?tab=readme-ov-file#1-configure-nvme-over-tcp))
