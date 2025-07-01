@@ -24,15 +24,13 @@ Unless noted otherwise, all nodes use default system settings.
 
 ## Preliminaries
 
-**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, we provide the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
+**⚠️ [NOTE]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, we provide the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
 
 ```
 cd ~/eternity1/
 ```
 
 For simplicity, we use the notation `eternity[n]`, where `n` can be 1, 2, 5, 6, and 11.
-
-**⚠️ [NOTE 2]**: Run all scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
 
 ---
 
@@ -311,11 +309,10 @@ Check the benchmark results using the following metrics:
 
 ### 3. How to vary the number of clients?
 
-In our paper, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted.
+In our evaluation, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted. Before mounting, we assume that the target system is created on `eternity6`.
 
-- For 1-client case: ensure that **only `eternity1`** mounts the target file system (except for NFS, where `eternity6` (the server) must also mount the directory for proper operation.)
-- For _n_-client case: mounts the target file system on _n_ client nodes, including `eternity1`.
-
+- For 1-client case: make sure that **only `eternity1`** mounts the target file system.
+- For _n_-client case: mount the target file system on _n_ client nodes, including `eternity1`.
 
 <!--
 All experiments are configured to be executed from **eternity1**.  
@@ -343,11 +340,11 @@ Check the benchmark results using the following metrics:
 
 ### Breakdown by Figure (from the paper)
 
----
-
 > ⚠️ **Note**:
 > To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.  
 > Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
+
+Run all evaluation scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
 
 #### **Fig. 2**
 
