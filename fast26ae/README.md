@@ -360,11 +360,12 @@ On all client nodes:
 - **Number of clients**: 1 to 5
 
 On `eternity1`:  
-**(a)** performs sequential write → sequential read → random write → random read
+**(a)** 
 ```
 cd ~/eternity1/ior/scripts/
 ./ior.sh
 ```
+`ior.sh` performs sequential write → sequential read → random write → random read.  
 **(b)**
 ```
 cd ~/eternity1/ior/scripts/
