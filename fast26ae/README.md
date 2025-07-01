@@ -11,7 +11,7 @@ In our evaluation, we assume the following:
 
 <!-- **(Please adapt this configuration to match your testbed environment.)** -->
 
-## Hardware Configurations
+## Testbed Configurations
 
 Each client node is equipped with:
 
