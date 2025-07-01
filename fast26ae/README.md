@@ -292,15 +292,15 @@ eternity[n]/[fs]/umount.sh
 
 ## Lockify Evaluation
 
-#### How to run evaluation scripts?
+### 1. How to run evaluation scripts?
 
-All evaluation scripts are assumed to run on **eternity1** and located in the following directories:
+All evaluation scripts are assumed to run on **eternity1** and are located in the following directories:
 
 - IOR/mdtest: `~/eternity1/ior/scripts/`
-- Postmark: `eternity1/postmark/`
-- Filebench: `eternity1/filebench/scripts/`
+- Postmark: `~/eternity1/postmark/`
+- Filebench: `~/eternity1/filebench/scripts/`
 
-#### How to read the results?
+### 2. How to read the results?
 
 Check the benchmark results using the following metrics:
 
@@ -309,12 +309,12 @@ Check the benchmark results using the following metrics:
 - Postmark: **Transactions per second** shown in the Time section  
 - Filebench: **ops/s** shown in the IO Summary section
 
-#### How to vary the number of clients?
+### 3. How to vary the number of clients?
 
-The number of clients indicates the number of nodes that currently have the target file system mounted.
+In our paper, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted.
 
 - For 1-client case: ensure that **only `eternity1`** mounts the target file system (except for NFS, where `eternity6` (the server) must also mount the directory for proper operation.)
-- For n-client case: mounts the target file system on _n_ client nodes, including `eternity1`.
+- For _n_-client case: mounts the target file system on _n_ client nodes, including `eternity1`.
 
 
 <!--
