@@ -311,10 +311,10 @@ Check the benchmark results using the following metrics:
 
 In our evaluation, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted. Before mounting, we assume that the target system is created on `eternity6`.
 
-- For 1-client case: make sure that **only `eternity1`** mounts the target file system.
-- For _n_-client case: mount the target file system on _n_ client nodes, including `eternity1`.
+- For 1 client: make sure that **only `eternity1`** mounts the target file system.
+- For _n_ clients: mount the target file system on _n_ client nodes, including `eternity1`.
 
-**IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
+---
 
 <!--
 All experiments are configured to be executed from **eternity1**.  
@@ -348,8 +348,10 @@ Check the benchmark results using the following metrics:
 ### Running Evaluation Scripts
 
 Run the evaluation scripts for Postmark and Filebench in a root shell using `sudo -s`, **except** for the IOR and mdtest scripts.
+**IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
 
-#### **Fig. 2**
+#### **Fig. 2:**
+Vary the number of client nodes with GFS2 mounted, then run the script.
 
 On all client nodes:
 - **DLM module**: dlm
@@ -365,75 +367,112 @@ cd ~/eternity1/ior/scripts/
 
 ---
 
-#### **Fig. 4**
+#### **Fig. 4:**
+Vary the number of client nodes with GFS2 mounted, then run the script.
 
-- **Script**: `mdtest_distribution.sh`  
-- **Location**: `eternity1/ior/scripts/`  
+On all client nodes:
+- **DLM module**: dlm
 - **File system**: GFS2  
-- **Kernel module**: dlm  
-- **Method**: Mount GFS2 on varying numbers of client nodes, then execute the script.
+- **Number of clients**: 1 to 5
+
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_distribution.sh
+```
 
 ---
 
-#### **Fig. 5**
+#### **Fig. 5:**
+Configure the target DLM module (o2cb or dlm), vary the number of client nodes with OCFS2 mounted, and run the script.
 
-- **Script**: `mdtest_create.sh`  
-- **Location**: `eternity1/ior/scripts/`  
+On all client nodes:
+- **DLM module**: o2cb, dlm
 - **File system**: OCFS2  
-- **Kernel modules**: `o2cb`, `dlm`  
-- **Method**:  
-  Recompile the appropriate kernel module, mount OCFS2 on varying numbers of client nodes, and execute the script.
+- **Number of clients**: 1 or 5
+
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_create.sh
+```
 
 ---
 
-#### **Fig. 7**
+#### **Fig. 7:**
+For NFS, no DLM module configuration is needed, vary the number of client nodes with NFS mounted, and run the script.  
+For GFS2 and OCFS2, configure the target DLM module (dlm or lockify), vary the number of client nodes with GFS2 or OCFS2 mounted, and run the script.
 
-- **Script**: `mdtest_create.sh`  
-- **Location**: `eternity1/ior/scripts/`  
-- **File systems**: NFS, GFS2, OCFS2  
-- **Kernel modules**: `dlm`, `lockify`  
-- **Method**:  
-  - **NFS**: No kernel module changes are needed. Mount via NFS and run the script.  
-  - **GFS2 / OCFS2**:  
-    Recompile and load the appropriate kernel module (`dlm` or `lockify`), then vary the number of client nodes (1 to 5) and run the script.
+On all client nodes:
+- **DLM module**: dlm, lockify
+- **File system**: NFS, GFS2, OCFS2  
+- **Number of clients**: 1 or 5
 
----
-
-#### **Fig. 8**
-
-- **Script**: `mdtest_multi.sh`  
-- **Location**: `eternity1/ior/scripts/`  
-- **File systems**: NFS, GFS2, OCFS2  
-- **Kernel modules**: `dlm`, `lockify`  
-- **Method**: Same as Fig. 7
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_create.sh
+```
 
 ---
 
-#### **Fig. 9**
+#### **Fig. 8:**
+Same as Fig. 7, but using the `mdtest_multi.sh` script.
 
-- **Script**: `mdtest_distribution.sh`  
-- **Location**: `eternity1/ior/scripts/`  
-- **File system**: GFS2  
-- **Kernel modules**: `dlm`, `lockify`  
-- **Method**: Mount GFS2 on varying numbers of client nodes and execute the script.
+On all client nodes:
+- **DLM module**: dlm, lockify
+- **File system**: NFS, GFS2, OCFS2  
+- **Number of clients**: 1 or 5
+
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_multi.sh
+```
 
 ---
 
-#### **Fig. 10**
+#### **Fig. 9:**
+Vary the number of client nodes with GFS2 mounted, then run the script.
 
-- **(a)**
-  - **Script**: `postmark.sh`  
-  - **Location**: `eternity1/postmark/`  
-  - **File systems**: NFS, GFS2, OCFS2  
-  - **Kernel modules**: `dlm`, `lockify`  
+On all client nodes:
+- **DLM module**: dlm, lockify
+- **File system**: GFS2
+- **Number of clients**: 1 or 5
 
-- **(b), (c)**
-  - **Scripts**:  
-    - `fileserver.sh` (b)  
-    - `webproxy.sh` (c)  
-  - **Location**: `eternity1/filebench/scripts/`  
-  - **File systems**: NFS, GFS2, OCFS2  
-  - **Kernel modules**: `dlm`, `lockify`  
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+./mdtest_distribution.sh
+```
+
+---
+
+#### **Fig. 10:**
+For NFS, no DLM module configuration is needed, vary the number of client nodes with NFS mounted, and run the script.  
+For GFS2 and OCFS2, configure the target DLM module (dlm or lockify), vary the number of client nodes with GFS2 or OCFS2 mounted, and run the script.
+
+On all client nodes:
+- **DLM module**: dlm, lockify
+- **File system**: NFS, GFS2, OCFS2  
+- **Number of clients**: 1 or 5
+
+On `eternity1`:
+**(a)**
+```
+cd ~/eternity1/postmark/
+./postmark.sh
+```
+**(b)**
+```
+cd ~/eternity1/filebench/scripts/
+./fileserver.sh
+```
+**(c)**
+```
+cd ~/eternity1/filebench/scripts/
+./webproxy.sh
+```
 
 ---
 
