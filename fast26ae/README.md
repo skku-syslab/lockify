@@ -1,26 +1,18 @@
-# Artifact Evaluation Instructions
-
-Hello!
-
-Thank you for taking the time to review our artifact. This document provides step-by-step instructions to access the servers used during our experiments, ensuring full reproducibility in the same environment used for the paper.
-
-> **Access Information**  
-> To access the servers, please refer to the **separately submitted information** for:
-> - VPN configuration  
-> - Server SSH path  
-> - User ID and password  
->
-> These credentials are intentionally excluded from this document for security reasons.
-
-We provide access to the same servers used in the experiments (named `eternity`) so that you can reproduce the results in an identical environment.
-
-## Testbed Configuration
+# FAST'26 Artifact Evaluation Instructions
 
 All scripts have been fully prepared in this directory.  
 **You do not need to refer to the `readme.md` file in the parent directory.**
 
-The setup consists of **five client nodes** connected via a **56 Gbps switch**.  
-A **single storage server** hosts a **250 GB Samsung 970 EVO Plus NVMe SSD**, which is shared over **NVMe-over-TCP**.
+In our evaluation, we assume the following:
+
+- There are **five client nodes**: eternity1, eternity2, eternity5, eternity6, and eternity11.
+- All client nodes have the the Lockify kernel installed. ([Build Lockify Kernel](https://github.com/skku-syslab/lockify?tab=readme-ov-file#build-lockify-kernel))
+- All client nodes have the required software packages installed. ([Configure shared-disk file systems](https://github.com/skku-syslab/lockify?tab=readme-ov-file#2-configure-shared-disk-file-system))
+- All client nodes are configured to share a common storage node via NVMe-over-TCP. ([Configure NVMe-over-TCP](https://github.com/skku-syslab/lockify?tab=readme-ov-file#1-configure-nvme-over-tcp))
+
+**Please adapt this configuration to match your testbed environment.**
+
+## Hardware Configurations
 
 Each client node is equipped with:
 
@@ -28,6 +20,7 @@ Each client node is equipped with:
 - 64 GB RAM
 - Ubuntu 18.04 with Linux kernel 6.6.23
 
+All client nodes are connected via a 56 Gbps switch. A 250 GB Samsung 970 EVO Plus NVMe SSD is used for the shared storage.  
 Unless noted otherwise, all nodes use default system settings.
 
 ---
