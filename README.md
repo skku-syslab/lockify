@@ -20,7 +20,7 @@ This repository includes only the modified components of the Linux kernel:
 
 ## Getting Started Guide
 
-We assume a cluster where multiple client nodes share the same storage node via NVMe-over-TCP. All client nodes are reuqired to (1) have our Lockify kernel installed, (2) use a shared-disk file system (GFS2 or OCFS2), and (3) be configured with the host-side NVMe-over-TCP module. The storage node only needs to be configured with the target-side NVMe-over-TCP module.
+We assume a cluster where multiple client nodes share the same storage node via NVMe-over-TCP. **All client nodes are reuqired to** (1) have our Lockify kernel installed, (2) use a shared-disk file system (GFS2 or OCFS2), and (3) be configured with the host-side NVMe-over-TCP module. The storage node only needs to be configured with the target-side NVMe-over-TCP module.
 
 This guide consists of three parts:
 
@@ -70,7 +70,7 @@ Update kernel configuration:
 make olddefconfig
 ```
 
-Make sure NVMe-over-TCP modules are included in the kernel configuration, then press ``Save'' and ``Exit'':
+Make sure NVMe-over-TCP modules are included in the kernel configuration, then press "Save" and "Exit":
 
 ```bash
 make menuconfig
