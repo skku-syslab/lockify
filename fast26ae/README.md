@@ -146,7 +146,7 @@ cd ~/eternity[n]/
 
 - For **GFS2**: run `./gfs2/mount_gfs2.sh`
 - For **OCFS2**: run `./ocfs2/mount_ocfs2.sh`
-- For **NFS**: run `./nfs/nfs.sh`
+- For **NFS**: run `./nfs/mount_nfs.sh`
 
 ### (Optional) 4. Verifying the file system
 
@@ -314,6 +314,8 @@ In our evaluation, we vary the number of clients, which refers to the number of 
 - For 1-client case: make sure that **only `eternity1`** mounts the target file system.
 - For _n_-client case: mount the target file system on _n_ client nodes, including `eternity1`.
 
+**IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
+
 <!--
 All experiments are configured to be executed from **eternity1**.  
 Number of clients refers to the number of nodes that currently have the file system mounted.
@@ -334,29 +336,32 @@ Check the benchmark results using the following metrics:
 - mdtest: Directory/File creation in the SUMMARY rate section  
 - Postmark: Transactions per second in the Time section  
 - Filebench: ops/s in the IO Summary section
--->
-
 ---
 
 ### Breakdown by Figure (from the paper)
 
 > ⚠️ **Note**:
-> To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.  
+> To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.
 > Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
+--->
 
-Run all evaluation scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
+### Running Evaluation Scripts
+
+Run the evaluation scripts for Postmark and Filebench in a root shell using `sudo -s`, **except** for the IOR and mdtest scripts.
 
 #### **Fig. 2**
 
-- **Scripts**: `ior.sh` (a), `mdtest_create.sh` (b)  
-- **Location**: `eternity1/ior/scripts/`  
+On all client nodes:
+- **DLM module**: dlm
 - **File system**: GFS2  
-- **Kernel module**: dlm  
-- **Method**: Vary the number of client nodes that mount the GFS2 file system  
-- `ior.sh` performs:  
-  ```
-  sequential write → sequential read → random write → random read
-  ```
+- **Number of clients**: 1 to 5
+
+On `eternity1`:
+```
+cd ~/eternity1/ior/scripts/
+```
+- (a) run `ior.sh` (performs sequential write → sequential read → random write → random read)
+- (b) run `mdtest_create.sh`
 
 ---
 
