@@ -137,7 +137,7 @@ cd ~/eternity6/
 
 - **GFS2**: `./gfs2/mkfs_gfs2.sh`, `./gfs2/mount_gfs2.sh`
 - **OCFS2**: `./ocfs2/mkfs_ocfs2.sh`, `./ocfs2/mount_ocfs2.sh`
-- **NFS**: `./nfs/nfs_storage.sh`, `./nfs/nfs.sh`
+- **NFS**: `./nfs/nfs_storage.sh`
 
 On the other client nodes:
 
