@@ -7,11 +7,11 @@ In our evaluation, we assume the following:
 - There are **five client nodes**: `eternity1`, `eternity2`, `eternity5`, `eternity6`, and `eternity11`.
 - All client nodes have the the Lockify kernel installed. ([Build Lockify Kernel](https://github.com/skku-syslab/lockify?tab=readme-ov-file#build-lockify-kernel))
 - All client nodes have the required software packages installed. ([Configure shared-disk file systems](https://github.com/skku-syslab/lockify?tab=readme-ov-file#2-configure-shared-disk-file-system))
-- All client nodes are configured to share a common storage node via NVMe-over-TCP. ([Configure NVMe-over-TCP](https://github.com/skku-syslab/lockify?tab=readme-ov-file#1-configure-nvme-over-tcp))
+- The node `eternity6` hosts a shared storage device, `/dev/nvme0n1`, which is accessed by all five client nodes. Except for `eternity6` itself, the other four client nodes access this device via NVMe-over-TCP, where it appears locally as `/dev/nvme1n1`.
 
 **Please adapt this configuration to match your testbed environment.**
 
-## Hardware Configurations
+## 1. Hardware Configurations
 
 Each client node is equipped with:
 
@@ -22,8 +22,17 @@ Each client node is equipped with:
 All client nodes are connected via a 56 Gbps switch. A 250 GB Samsung 970 EVO Plus NVMe SSD is used for the shared storage.  
 Unless noted otherwise, all nodes use default system settings.
 
----
+## 2. Preliminaries
 
+**⚠️ [NOTE 1]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, please use the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use `~/eternity1/` directory:
+
+```
+cd ~/eternity1/
+```
+
+**⚠️ [NOTE 2]**: Run all scripts in a root shell using `sudo -s`, **except** for `mdtest` (IOR).
+
+<!--
 All *eternity* nodes share the same home directory via NFS.  
 To separate environments, individual directories are created for each node under the home directory:
 
@@ -43,6 +52,7 @@ From this point onward, please execute all node-specific scripts from their corr
 > ⚠️ **Note**:  
 > Since `sudo` privileges have been granted, perform all operations in a root shell using `sudo -s`,  
 > **except** when running `mdtest` (IOR).
+-->
 
 ---
 
