@@ -56,11 +56,11 @@ From this point onward, please execute all node-specific scripts from their corr
 > **except** when running `mdtest` (IOR).
 -->
 
-Before running the AE scripts, make sure that **each client node** is correctly configured with (1) the target DLM kernel module, (2) the NVMe-over-TCP setup, and (3) the target file system.
+Before running the evaluation scripts, make sure that **each client node** is correctly configured with (1) the target DLM kernel module, (2) the NVMe-over-TCP setup, and (3) the target file system.
 
 ### 1. Configure DLM kernel module
 
-We provide three DLM kernel modules: `dlm`, `o2cb`, and `lockify`. These modules are mutually exclusive in our current setup, meaning that switching between DLM configurations requires reinstalling the desired kernel module followed by a system reboot, which takes ~10 minutes. After reboot, the target DLM module is automatically loaded.
+We provide three DLM kernel modules: `dlm`, `o2cb`, and `lockify`. These modules operate in a mutually exclusive manner in our current setup, meaning that switching between DLM configurations requires reinstalling the desired kernel module followed by a system reboot, which takes ~10 minutes. After reboot, the target DLM module is automatically loaded.
 
 Move to the module directory:
 
