@@ -167,7 +167,7 @@ To verify that the file system is correctly shared:
 If the file is visible, the shared file system setup is successful.
 
 > ⚠️ **Note**:  
-> Before switching to a different file system (e.g., from GFS2 to OCFS2), make sure that unmount `/mnt/fast26ae` is unmounted on all client nodes:
+> Before switching to a different file system (e.g., from GFS2 to OCFS2) without rebooting, make sure that `/mnt/fast26ae` is unmounted on all client nodes:
 
 ```
 sudo -s
