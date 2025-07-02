@@ -309,10 +309,10 @@ Check the benchmark results using the following metrics:
 
 ### 3. How to vary the number of clients?
 
-In our evaluation, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted. Before mounting, we assume that the target system is created on `eternity6`.
+In our evaluation, we vary the number of clients, which refers to the number of nodes that currently have the target file system mounted. Before mounting, please make sure that the target file system is created on `eternity6`.
 
-- For 1 client: make sure that **only `eternity1`** mounts the target file system.
-- For _n_ clients: mount the target file system on _n_ client nodes, including `eternity1`.
+- For 1 client: mount the target file system on **`eternity1`**.
+- For _n_ clients: mount the target file system on any _n_ client nodes, including `eternity1`.
 
 ---
 
