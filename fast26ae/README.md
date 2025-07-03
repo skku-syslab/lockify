@@ -340,7 +340,10 @@ Check the benchmark results using the following metrics:
 
 ### Breakdown by Figure (from the paper)
 
-
+> ⚠️ **Note**:
+> To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.
+> Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
+--->
 
 ### Running Evaluation Scripts
 
