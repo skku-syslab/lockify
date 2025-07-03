@@ -349,20 +349,20 @@ Check the benchmark results using the following metrics:
 
 Run the evaluation scripts for Postmark and Filebench in a root shell using `sudo -s`, **except** for the IOR and mdtest scripts.
 
-**IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
+**IMPORTANT:**
+To minimize reboot and filesystem reformatting overhead during evaluation, we recommend grouping experiments by the  currently loaded kernel module and file system.
 
-> ⚠️ **Note**:
-> To minimize reboot and filesystem reformatting overhead during evaluation, we recommend grouping experiments by the currently loaded kernel module (DLM) and file system.
-> 
-> We suggest the following order:
-> - **Lockify with GFS2**: Fig. 7, Fig. 8, Fig. 9, Fig. 10  
-> - **Lockify with OCFS2**: Fig. 7, Fig. 8, Fig. 10  
-> - **DLM with GFS2**: Fig. 2, Fig. 4, Fig. 7, Fig. 8, Fig. 9, Fig. 10  
-> - **DLM with OCFS2**: Fig. 5, Fig. 7, Fig. 8, Fig. 10  
-> - **O2CB with OCFS2**: Fig. 5  
-> - **NFS**: Fig. 7, Fig. 8, Fig. 10  
-> 
-> Once a (DLM, file system) combination is set up, execute all corresponding figure scripts consecutively before changing to the next configuration. This significantly reduces repetitive kernel module switching and mkfs/mount operations.
+We suggest the following order:
+- **Lockify with GFS2**: Fig. 7, Fig. 8, Fig. 9, Fig. 10  
+- **Lockify with OCFS2**: Fig. 7, Fig. 8, Fig. 10  
+- **DLM with GFS2**: Fig. 2, Fig. 4, Fig. 7, Fig. 8, Fig. 9, Fig. 10  
+- **DLM with OCFS2**: Fig. 5, Fig. 7, Fig. 8, Fig. 10  
+- **O2CB with OCFS2**: Fig. 5  
+- **NFS**: Fig. 7, Fig. 8, Fig. 10  
+
+Once a (kernel module, file system) combination is set up, execute all corresponding figure scripts consecutively before changing to the next configuration. This significantly reduces repetitive kernel module switching and mkfs/mount operations.
+
+> ⚠️ **Note**: If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
 
 #### **Fig. 2:**
 Vary the number of client nodes with GFS2 mounted, then run the script.
