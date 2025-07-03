@@ -340,16 +340,26 @@ Check the benchmark results using the following metrics:
 
 ### Breakdown by Figure (from the paper)
 
-> ⚠️ **Note**:
-> To minimize kernel module patching overhead, we strongly recommend to avoid running experiments figure-by-figure.
-> Instead, group experiments by currently loaded kernel module, mounted file system, and number of client nodes and organize results incrementally in an Excel sheet during evaluation.
---->
+
 
 ### Running Evaluation Scripts
 
 Run the evaluation scripts for Postmark and Filebench in a root shell using `sudo -s`, **except** for the IOR and mdtest scripts.
 
 **IMPORTANT:** If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
+
+> ⚠️ **Note**:
+> To minimize reboot and filesystem reformatting overhead during evaluation, we recommend grouping experiments by the currently loaded kernel module (DLM) and file system.
+> 
+> We suggest the following order:
+> - **Lockify with GFS2**: Fig. 7, Fig. 8, Fig. 9, Fig. 10  
+> - **Lockify with OCFS2**: Fig. 7, Fig. 8, Fig. 10  
+> - **DLM with GFS2**: Fig. 2, Fig. 4, Fig. 7, Fig. 8, Fig. 9, Fig. 10  
+> - **DLM with OCFS2**: Fig. 5, Fig. 7, Fig. 8, Fig. 10  
+> - **O2CB with OCFS2**: Fig. 5  
+> - **NFS**: Fig. 7, Fig. 8, Fig. 10  
+> 
+> Once a (DLM, file system) combination is set up, execute all corresponding figure scripts consecutively before changing to the next configuration. This significantly reduces repetitive kernel module switching and mkfs/mount operations.
 
 #### **Fig. 2:**
 Vary the number of client nodes with GFS2 mounted, then run the script.
