@@ -360,7 +360,7 @@ We suggest the following order:
 - **O2CB with OCFS2**: Fig. 5  
 - **NFS**: Fig. 7, Fig. 8, Fig. 10  
 
-Once a (kernel module, file system) combination is set up, execute all corresponding figure scripts consecutively before changing to the next configuration. This significantly reduces repetitive kernel module switching and mkfs/mount operations.
+Once a (kernel module, file system) combination is set up, execute all corresponding figure scripts consecutively before moving on to the next configuration. This helps reduce repetitive kernel module switching and mkfs/mount operations.
 
 > ⚠️ **Note**: If any part of the setup becomes inconsistent or misconfigured, the simplest and most reliable way to recover is to **reboot the nodes** and retry the setup step.
 
