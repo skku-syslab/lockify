@@ -1543,7 +1543,8 @@ static int _remove_from_waiters(struct dlm_lkb *lkb, int mstype,
 	/* N.B. type of reply may not always correspond to type of original
 	   msg due to lookup->request optimization, verify others? */
 
-	if (lkb->lkb_wait_type) {
+	// @pty
+	if (lkb->lkb_wait_type || mstype == DLM_MSG_NOTIFY_REPLY) {
 		lkb->lkb_wait_type = 0;
 		goto out_del;
 	}
@@ -3661,7 +3662,7 @@ static int send_notify(struct dlm_rsb *r, struct dlm_lkb *lkb)
 	return 0;
 
  fail:
-	remove_from_waiters(lkb, DLM_MSG_NOTIFY);	
+	remove_from_waiters(lkb, DLM_MSG_NOTIFY_REPLY);	
 	return error;
 }
 
@@ -5214,6 +5215,12 @@ void dlm_recover_waiters_pre(struct dlm_ls *ls)
 			continue;
 		}
 
+		// @pty
+		if (lkb->lkb_wait_type == DLM_MSG_NOTIFY) {
+			set_bit(DLM_IFL_RESEND_BIT, &lkb->lkb_iflags);
+			continue;
+		}
+
 		if (!waiter_needs_recovery(ls, lkb, dir_nodeid))
 			continue;
 
@@ -5371,6 +5378,8 @@ int dlm_recover_waiters_post(struct dlm_ls *ls)
 			switch (mstype) {
 			case DLM_MSG_LOOKUP:
 			case DLM_MSG_REQUEST:
+			// @pty
+			case DLM_MSG_NOTIFY:
 				queue_cast(r, lkb, ou ? -DLM_EUNLOCK :
 							-DLM_ECANCEL);
 				unhold_lkb(lkb); /* undoes create_lkb() */
@@ -5390,6 +5399,8 @@ int dlm_recover_waiters_post(struct dlm_ls *ls)
 			switch (mstype) {
 			case DLM_MSG_LOOKUP:
 			case DLM_MSG_REQUEST:
+			// @pty
+			case DLM_MSG_NOTIFY:
 				_request_lock(r, lkb);
 				if (is_master(r))
 					confirm_master(r, 0);
