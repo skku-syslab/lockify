@@ -16,7 +16,7 @@ All artifact evaluation scripts have been fully prepared in this directory. **Yo
 In our evaluation, we assume the following:
 
 - There are **five client nodes**: `eternity1`, `eternity2`, `eternity5`, `eternity6`, and `eternity11`.
-- All client nodes have the the Lockify kernel installed. ([Build Lockify Kernel](https://github.com/skku-syslab/lockify?tab=readme-ov-file#build-lockify-kernel))
+- All client nodes have the Lockify kernel installed. ([Build Lockify Kernel](https://github.com/skku-syslab/lockify?tab=readme-ov-file#build-lockify-kernel))
 - All client nodes have the required software packages installed. ([Configure shared-disk file systems](https://github.com/skku-syslab/lockify?tab=readme-ov-file#2-configure-shared-disk-file-system))
 - The node `eternity6` hosts a shared storage device, `/dev/nvme0n1`, which is accessed by all five client nodes. Except for `eternity6` itself, the other four client nodes access this device via NVMe-over-TCP, where it appears locally as `/dev/nvme1n1`.
 
