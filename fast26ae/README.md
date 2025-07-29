@@ -1,5 +1,16 @@
 # FAST'26 Artifact Evaluation Instructions
 
+<!--
+Environment Notice:
+The following scripts and configurations are tailored for the FAST’26 Artifact Evaluation environment in our lab. They assume:
+  • Shared mount point:        /mnt/fast26ae
+  • Storage host IPs:          10.0.0.1, ...
+  • Client NVMe devices:       /dev/nvme1n1, ...
+  • And other parameters may also be hard‑coded.
+
+To run these scripts in your own testbed, replace all occurrences of those values with the corresponding values in your environment.
+-->
+
 All artifact evaluation scripts have been fully prepared in this directory. **You do not need to refer to the `README.md` file in the parent directory.**  
 
 In our evaluation, we assume the following:
@@ -24,10 +35,10 @@ Unless noted otherwise, all nodes use default system settings.
 
 ## Preliminaries
 
-**⚠️ [NOTE]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, we provide the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/eternity1/` directory:
+**⚠️ [NOTE]**: Since client nodes access the shared storage under different device names (`/dev/nvme0n1` or `/dev/nvme1n1`) and use different sets of scripts, we provide the node-specific scripts located in each node's directory. For example, if you're on `eternity1`, use the `~/fast26ae/eternity1/` directory:
 
 ```
-cd ~/eternity1/
+cd ~/fast26ae/eternity1/
 ```
 
 For simplicity, we use the notation `eternity[n]`, where `n` can be 1, 2, 5, 6, and 11.
@@ -46,8 +57,8 @@ eternity1  eternity2  eternity5  eternity6  eternity11
 From this point onward, please execute all node-specific scripts from their corresponding directories, for example:
 
 ```
-~/eternity1/
-~/eternity2/
+~/fast26ae/eternity1/
+~/fast26ae/eternity2/
 ...
 ```
 
@@ -66,7 +77,7 @@ Move to the module directory:
 
 ```
 sudo -s
-cd ~/eternity[n]/module/
+cd ~/fast26ae/eternity[n]/module/
 ```
 
 Then, compile and install the target DLM module:
@@ -110,7 +121,7 @@ On `eternity6`:
 
 ```
 sudo -s
-cd ~/eternity6/
+cd ~/fast26ae/eternity6/
 ./nvmeof_storage.sh
 ```
 
@@ -118,7 +129,7 @@ On the other client nodes:
 
 ```
 sudo -s
-cd ~/eternity[n]/
+cd ~/fast26ae/eternity[n]/
 ./nvmeof.sh
 ```
 
@@ -130,7 +141,7 @@ On `eternity6`, create the target file system (format):
 
 ```
 sudo -s
-cd ~/eternity6/
+cd ~/fast26ae/eternity6/
 ```
 
 - For **GFS2**: run `./gfs2/mkfs_gfs2.sh`
@@ -141,7 +152,7 @@ On all client nodes, mount the target file system:
 
 ```
 sudo -s
-cd ~/eternity[n]/
+cd ~/fast26ae/eternity[n]/
 ```
 
 - For **GFS2**: run `./gfs2/mount_gfs2.sh`
@@ -171,7 +182,7 @@ If the file is visible, the shared file system setup is successful.
 
 ```
 sudo -s
-cd ~/eternity[n]/
+cd ~/fast26ae/eternity[n]/
 ```
 
 - For **GFS2**: run `./gfs2/umount.sh`
@@ -294,9 +305,9 @@ eternity[n]/[fs]/umount.sh
 
 All evaluation scripts are assumed to run on **eternity1** and are located in the following directories:
 
-- IOR/mdtest: `~/eternity1/ior/scripts/`
-- Postmark: `~/eternity1/postmark/`
-- Filebench: `~/eternity1/filebench/scripts/`
+- IOR/mdtest: `~/fast26ae/eternity1/ior/scripts/`
+- Postmark: `~/fast26ae/eternity1/postmark/`
+- Filebench: `~/fast26ae/eternity1/filebench/scripts/`
 
 ### 2. How to read the results?
 
@@ -375,13 +386,13 @@ On all client nodes:
 On `eternity1`:  
 **(a)** 
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./ior.sh
 ```
 `ior.sh` performs sequential write → sequential read → random write → random read.  
 **(b)**
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_create.sh
 ```
 
@@ -397,7 +408,7 @@ On all client nodes:
 
 On `eternity1`:
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_distribution.sh
 ```
 
@@ -413,7 +424,7 @@ On all client nodes:
 
 On `eternity1`:
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_create.sh
 ```
 
@@ -430,7 +441,7 @@ On all client nodes:
 
 On `eternity1`:
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_create.sh
 ```
 
@@ -446,7 +457,7 @@ On all client nodes:
 
 On `eternity1`:
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_multi.sh
 ```
 
@@ -462,7 +473,7 @@ On all client nodes:
 
 On `eternity1`:
 ```
-cd ~/eternity1/ior/scripts/
+cd ~/fast26ae/eternity1/ior/scripts/
 ./mdtest_distribution.sh
 ```
 
@@ -481,19 +492,19 @@ On `eternity1`:
 **(a)**
 ```
 sudo -s
-cd ~/eternity1/postmark/
+cd ~/fast26ae/eternity1/postmark/
 ./postmark.sh
 ```
 **(b)**
 ```
 sudo -s
-cd ~/eternity1/filebench/scripts/
+cd ~/fast26ae/eternity1/filebench/scripts/
 ./fileserver.sh
 ```
 **(c)**
 ```
 sudo -s
-cd ~/eternity1/filebench/scripts/
+cd ~/fast26ae/eternity1/filebench/scripts/
 ./webproxy.sh
 ```
 
