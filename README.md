@@ -158,24 +158,77 @@ nvme connect -a 10.0.0.6 -t tcp -s 4420 -n pty
 
 ### 2. Configure shared-disk file system
 
-#### On each client node
-
 <!-- To evaluate Lockify, configure a shared-disk setup across nodes. -->
-> Replace values like `/dev/nvme0n1`, and `/mnt/` with your actual device and mount point.
+> Replace values like `10.0.0.1`, `/dev/nvme0n1`, and `/mnt/...` with your actual environment.
+
+#### A. Cluster Configuration
+
+Example of /etc/corosync/corosync.conf (for GFS2)
+
+```conf
+totem {
+    version: 2
+    secauth: off
+    cluster_name: mycluster      # change to your cluster name
+}
+
+nodelist {
+    node {
+        ring0_addr: 10.0.0.1     # node 1 management IP
+        nodeid: 1                # unique node ID
+    }
+    node {
+        ring0_addr: 10.0.0.2     # node 2 management IP
+        nodeid: 2
+    }
+    …                             # repeat for all nodes
+}
+
+quorum {
+    provider: corosync_votequorum
+}
+
+logging {
+    to_syslog: yes
+}
+```
+
+Example of /etc/ocfs2/cluster.conf (for OCFS2)
+
+```conf
+cluster:
+    node_count = 5               # total number of nodes
+    name = mycluster             # must match Corosync’s cluster_name
+
+node:
+    number = 0                    # index starting from 0
+    cluster = mycluster
+    ip_port = 7777                # OCFS2 port
+    ip_address = 10.0.0.1         # node 1 data IP
+    name = node1                  # node’s hostname
+
+node:
+    number = 1
+    cluster = mycluster
+    ip_port = 7777
+    ip_address = 10.0.0.2         # node 2 data IP
+    name = node2
+
+…                                 # repeat for remaining nodes
+```
+#### B. On each client node
 
 - **For GFS2**:  
-  - Install package: `sudo apt install corosync dlm-controld gfs2-utils`   
-  - Edit `/etc/corosync/corosync.conf` consistently across client nodes  
+  - Install package: `sudo apt install corosync dlm-controld gfs2-utils`    
   - When formatting: `mkfs.gfs2 -p lock_dlm -t <cluster_name>:<fsname> ...`  
-  - Mount: `mount -t gfs2 /dev/nvme0n1 /mnt/`  
-  - Unmount: `umount /mnt/`  
+  - Mount: `mount -t gfs2 /dev/nvme0n1 /mnt/...`  
+  - Unmount: `umount /mnt/...`  
 
 - **For OCFS2**:  
   - Install package: `sudo apt install ocfs2-tools ocfs2-tools-dev`  
-  - Edit `/etc/ocfs2/cluster.conf`  
   - When formatting: `mkfs.ocfs2 --cluster-name <name> ...`
-  - Mount: `mount -t ocfs2 /dev/nvme0n1 /mnt/`
-  - Unmount: `umount /mnt/`  
+  - Mount: `mount -t ocfs2 /dev/nvme0n1 /mnt/...`
+  - Unmount: `umount /mnt/...`  
 
 ---
 
