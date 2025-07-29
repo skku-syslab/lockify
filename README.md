@@ -119,11 +119,11 @@ Repeat the same steps for all client nodes.
 
 ## Setup Remote Storage Devices and File System
 
+> Replace values like `10.0.0.1`, `/dev/nvme0n1`, `pty` and `/mnt/...` with your actual environment.
+
 ### 1. Configure NVMe-over-TCP
 
 #### On the storage node
-
-> Replace values like `10.0.0.1`, `/dev/nvme0n1`, `pty` and `/mnt/...` with your actual environment.
 
 ```bash
 cd /sys/kernel/config/nvmet/subsystems/
