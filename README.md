@@ -15,7 +15,6 @@ This repository includes only the modified components of the Linux kernel:
 - `include/`: Contains small changes to header files
 - `fast26ae/`: Includes the README and scripts used for artifact evaluation (see `fast26ae/README.md`)
 
-> **Note**: For FAST'26 artifact reviewers, all setup steps are fully scripted — you can proceed directly to `fast26ae/README.md`.
 ---
 
 ## Getting Started Guide
