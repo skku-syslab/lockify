@@ -123,7 +123,7 @@ Repeat the same steps for all client nodes.
 
 #### On the storage node
 
-> Replace values like `pty`, `/dev/nvme0n1`, and `10.0.0.6` with your actual device and IP.
+> Replace values like `10.0.0.1`, `/dev/nvme0n1`, `pty` and `/mnt/...` with your actual environment.
 
 ```bash
 cd /sys/kernel/config/nvmet/subsystems/
@@ -159,7 +159,6 @@ nvme connect -a 10.0.0.6 -t tcp -s 4420 -n pty
 ### 2. Configure shared-disk file system
 
 <!-- To evaluate Lockify, configure a shared-disk setup across nodes. -->
-> Replace values like `10.0.0.1`, `/dev/nvme0n1`, and `/mnt/...` with your actual environment.
 
 #### A. Cluster Configuration
 
@@ -178,10 +177,10 @@ nodelist {
         nodeid: 1                # unique node ID
     }
     node {
-        ring0_addr: 10.0.0.2     # node 2 management IP
+        ring0_addr: 10.0.0.2     
         nodeid: 2
     }
-    …                             # repeat for all nodes
+    …                             # repeat for remaining nodes
 }
 
 quorum {
@@ -211,7 +210,7 @@ node:
     number = 1
     cluster = mycluster
     ip_port = 7777
-    ip_address = 10.0.0.2         # node 2 data IP
+    ip_address = 10.0.0.2         
     name = node2
 
 …                                 # repeat for remaining nodes
