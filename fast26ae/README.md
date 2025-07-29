@@ -1,15 +1,15 @@
 # FAST'26 Artifact Evaluation Instructions
 
-<!--
-Environment Notice:
-The following scripts and configurations are tailored for the FAST’26 Artifact Evaluation environment in our lab. They assume:
-  • Shared mount point:        /mnt/fast26ae
-  • Storage host IPs:          10.0.0.1, ...
-  • Client NVMe devices:       /dev/nvme1n1, ...
-  • And other parameters may also be hard‑coded.
+> **Environment Notice**  
+> The following scripts and configurations are tailored for the FAST’26 Artifact Evaluation
+> environment in our lab. They assume:
+> - Shared mount point:        /mnt/fast26ae  
+> - Storage host IPs:          10.0.0.1, …  
+> - Client NVMe devices:       /dev/nvme1n1, …  
+> - And other parameters may also be hard‑coded.  
+>
+> To run these scripts in your own testbed, replace all occurrences of those values with the corresponding values in your environment.
 
-To run these scripts in your own testbed, replace all occurrences of those values with the corresponding values in your environment.
--->
 
 All artifact evaluation scripts have been fully prepared in this directory. **You do not need to refer to the `README.md` file in the parent directory.**  
 
