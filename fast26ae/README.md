@@ -453,7 +453,7 @@ Same as Fig. 7, but using the `mdtest_multi.sh` script.
 On all client nodes:
 - **DLM module**: dlm, lockify
 - **File system**: NFS, GFS2, OCFS2  
-- **Number of clients**: 1 or 5
+- **Number of clients**: 5
 
 On `eternity1`:
 ```
