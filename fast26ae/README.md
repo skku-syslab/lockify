@@ -448,7 +448,7 @@ cd ~/fast26ae/eternity1/ior/scripts/
 ---
 
 #### **Fig. 8:**
-Same as Fig. 7, but using the `mdtest_multi.sh` script.
+Same as Fig. 7, but only use 5 client nodes and run the `mdtest_multi.sh` script.
 
 On all client nodes:
 - **DLM module**: dlm, lockify
